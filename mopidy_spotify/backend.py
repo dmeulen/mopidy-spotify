@@ -75,6 +75,10 @@ class SpotifyBackend(pykka.ThreadingActor, backend.Backend):
         session.volume_normalization = (
             config['spotify']['volume_normalization'])
 
+        if config['spotify']['cache_size']:
+            self._cache_size = config['spotify']['cache_size']
+            session.set_cache_size = self._cache_size
+
         backend_actor_proxy = self._actor_proxy
         session.on(
             spotify.SessionEvent.CONNECTION_STATE_UPDATED,
